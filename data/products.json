@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Headphones",
+    "price": 79.99,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+    "category": "Electronics",
+    "description": "Premium wireless headphones with noise cancellation and 30-hour battery life."
+  },
+  {
+    "id": 2,
+    "name": "Smart Watch",
+    "price": 199.99,
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+    "category": "Electronics",
+    "description": "Feature-rich smartwatch with fitness tracking and heart rate monitor."
+  },
+  {
+    "id": 3,
+    "name": "Laptop Backpack",
+    "price": 49.99,
+    "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500",
+    "category": "Accessories",
+    "description": "Durable laptop backpack with multiple compartments and USB charging port."
+  },
+  {
+    "id": 4,
+    "name": "Coffee Maker",
+    "price": 89.99,
+    "image": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500",
+    "category": "Home",
+    "description": "Programmable coffee maker with thermal carafe and auto-brew feature."
+  },
+  {
+    "id": 5,
+    "name": "Running Shoes",
+    "price": 129.99,
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
+    "category": "Sports",
+    "description": "Lightweight running shoes with responsive cushioning and breathable mesh."
+  },
+  {
+    "id": 6,
+    "name": "Desk Lamp",
+    "price": 34.99,
+    "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500",
+    "category": "Home",
+    "description": "LED desk lamp with adjustable brightness and color temperature."
+  }
+]
