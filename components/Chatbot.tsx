@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type Message = {
   user: string;
@@ -9,16 +9,12 @@ type Message = {
 
 export default function Chatbot() {
   const [message, setMessage] = useState<string>("");
-  const [chat, setChat] = useState<Message[]>([]);
-  const [isMinimized, setIsMinimized] = useState<boolean>(false);
-
-  // Load chat from localStorage
-  useEffect(() => {
+  const [chat, setChat] = useState<Message[]>(() => {
+    if (typeof window === "undefined") return [];
     const savedChat = localStorage.getItem("chatHistory");
-    if (savedChat) {
-      setChat(JSON.parse(savedChat));
-    }
-  }, []);
+    return savedChat ? JSON.parse(savedChat) as Message[] : [];
+  });
+  const [isMinimized, setIsMinimized] = useState<boolean>(false);
 
   // Save chat
   const saveChat = (newChat: Message[]) => {

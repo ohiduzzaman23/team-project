@@ -39,6 +39,9 @@ export default function Navbar() {
             <Link href="/products" className="text-gray-700 hover:text-blue-600 transition font-medium">
               Products
             </Link>
+            <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 transition font-medium">
+              Dashboard
+            </Link>
             <Link 
               href="/cart" 
               className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition relative"

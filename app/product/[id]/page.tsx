@@ -1,10 +1,23 @@
 import ProductDetail from '@/components/ProductDetail';
-import products from '@/data/products.json';
 import Link from 'next/link';
+import clientPromise from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
+import products from '@/data/products.json';
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const product = products.find(p => p.id === parseInt(id));
+async function getProduct(id: string) {
+  if (!ObjectId.isValid(id)) return null;
+
+  if (!process.env.MONGODB_URI || !clientPromise) {
+    return products.find((p) => String(p.id) === id) || null;
+  }
+
+  const client = await clientPromise;
+  const db = client.db();
+  return await db.collection('products').findOne({ _id: new ObjectId(id) });
+}
+
+export default async function ProductDetailPage({ params }: { params: { id: string } }) {
+  const product = await getProduct(params.id);
 
   if (!product) {
     return (
@@ -17,5 +30,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     );
   }
 
-  return <ProductDetail product={product} />;
+  const detailProduct = {
+    id: product._id ? product._id.toString() : String(product.id),
+    name: product.name,
+    price: Number(product.price),
+    image: product.image || '/placeholder.png',
+    category: product.category || 'General',
+    description: product.description || '',
+  };
+
+  return <ProductDetail product={detailProduct} />;
 }

@@ -6,7 +6,7 @@ import { useCart } from '@/context/CartContext';
 import { useState } from 'react';
 
 interface Product {
-  id: number;
+  id: string | number;
   name: string;
   price: number;
   image: string;
