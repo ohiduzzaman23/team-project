@@ -31,7 +31,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
   }
 
   const detailProduct = {
-    id: product._id ? product._id.toString() : String(product.id),
+    id: "_id" in product ? product._id.toString() : String(product.id),
     name: product.name,
     price: Number(product.price),
     image: product.image || '/placeholder.png',

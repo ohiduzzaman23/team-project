@@ -19,7 +19,7 @@ async function getProducts(): Promise<Product[]> {
   const client = await clientPromise;
   const db = client.db();
   const products = await db.collection('products').find({}).toArray();
-  return products;
+  return products as unknown as Product[];
 }
 
 export default async function ProductsPage() {

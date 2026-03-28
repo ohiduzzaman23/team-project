@@ -2,10 +2,7 @@ import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+const options = {}; // MongoDB driver v5+ handles URL parsing and topology automatically
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient> | null = null;

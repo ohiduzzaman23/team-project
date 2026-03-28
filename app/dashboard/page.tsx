@@ -13,7 +13,7 @@ type Product = {
   image?: string;
 };
 
-const defaultForm = {
+const defaultForm = { 
   name: "",
   price: "",
   category: "",
@@ -29,6 +29,37 @@ export default function DashboardPage() {
   const [form, setForm] = useState(defaultForm);
   const [editId, setEditId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("adminLoggedIn");
+    if (stored === "true") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogin = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (username === "admin" && password === "12345") {
+      setIsLoggedIn(true);
+      setAuthError(null);
+      localStorage.setItem("adminLoggedIn", "true");
+    } else {
+      setAuthError("Invalid username or password");
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("adminLoggedIn");
+    setUsername("");
+    setPassword("");
+    setAuthError(null);
+  };
 
   const filteredProducts = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -72,8 +103,12 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    loadProducts();
-  }, []);
+    if (isLoggedIn) {
+      loadProducts();
+    } else {
+      setProducts([]);
+    }
+  }, [isLoggedIn]);
 
   const resetForm = () => {
     setForm(defaultForm);
@@ -193,9 +228,53 @@ export default function DashboardPage() {
     reader.readAsDataURL(file);
   };
 
+  if (!isLoggedIn) {
+    return (
+      <DashboardLayout>
+        <div className="max-w-md mx-auto mt-20 rounded-lg bg-white p-6 shadow">
+          <h2 className="text-2xl font-semibold mb-4 text-slate-800">Admin Login</h2>
+          {authError && <p className="mb-3 text-sm text-rose-600">{authError}</p>}
+          <form onSubmit={handleLogin} className="space-y-3">
+            <input
+              type="text"
+              placeholder="Username=admin"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full rounded-lg border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
+            />
+            <input
+              type="password"
+              placeholder="Password=12345"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border border-slate-300 p-3 focus:border-blue-500 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-white hover:bg-blue-700"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        <div className="flex justify-between items-center rounded-lg bg-white p-4 shadow-sm">
+          <p className="text-sm font-medium text-slate-700">Logged in as admin</p>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="rounded-lg border border-slate-300 px-3 py-1 text-sm text-slate-700 hover:bg-slate-100"
+          >
+            Logout
+          </button>
+        </div>
+
         {(success || error) && (
           <div
             className={`rounded-md px-4 py-3 text-sm font-medium ${
